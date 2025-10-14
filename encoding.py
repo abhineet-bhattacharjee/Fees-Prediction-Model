@@ -20,11 +20,11 @@ def encode():
     return ct.fit_transform(X)
 
 def assign(x_encoded):
-    X_train, X_test, y_train, y_test = train_test_split(
+    x_train, x_test, y_train, y_test = train_test_split(
         x_encoded, y, test_size=0.2, random_state=42
     )
 
-    return X_train, X_test, y_train, y_test
+    return x_train, x_test, y_train, y_test
 
 
 if __name__ == '__main__':
