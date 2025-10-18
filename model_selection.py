@@ -77,12 +77,25 @@ def random_forest(degree):
     rf_acc = evaluation(y_test, rf_pred)
     results['Random Forest'] = {'MAE': rf_mae, 'R2': rf_r2, 'Accuracy (within 10%)': rf_acc, 'Degree': degree}
 
+def linear_regression(degree):
+    lr_pipe = Pipeline([
+        ('preprocess', ct),
+        ('poly', PolynomialFeatures(degree=2, include_bias=False)),
+        ('model', LinearRegression())
+    ])
+    lr_pipe.fit(X_train, y_train)
+    lr_pred = lr_pipe.predict(X_test)
+    mae_lr = mean_absolute_error(y_test, lr_pred)
+    r2_lr = r2_score(y_test, lr_pred)
+    acc_lr = evaluation(y_test, lr_pred)
+    results['Linear Regression'] = {'MAE': mae_lr, 'R2': r2_lr, 'Accuracy (within 10%)': acc_lr, 'Degree': degree}
 
 
 if __name__ == '__main__':
-    for degree in [1, 2, 3]:
+    for degree in [1, 2]:
         ridge_regression(degree)
         lasso_regression(degree)
         random_forest(degree)
+        linear_regression(degree)
     results_sorted = dict(sorted(results.items(), key=lambda x: x[1]['MAE']))
     pprint(results_sorted)
