@@ -10,4 +10,9 @@ import pandas as pd
 
 from encoding import assign, encode
 
+def evaluation(y_true, y_pred, tolerance=0.1):
+    y_true, y_pred = np.array(y_true), np.array(y_pred)
+    return np.mean(np.abs(y_true - y_pred) <= tolerance * y_true)
 
+
+results = {}
