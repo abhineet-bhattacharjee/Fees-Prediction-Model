@@ -8,16 +8,14 @@ from visualisation import df
 
 X = df[['academic.year', 'school']]
 y = df['cost']
-
-def encode():
-    global ct
-    ct = ColumnTransformer(
+ct = ColumnTransformer(
         transformers=[
             ('school_enc', OneHotEncoder(drop='first', sparse_output=False), ['school'])
         ],
         remainder='passthrough'
     )
 
+def encode():
     return ct.fit_transform(X)
 
 def assign(x_encoded):
