@@ -61,10 +61,28 @@ def lasso_regression(degree):
     lasso_acc = evaluation(y_test, lasso_pred)
     results['Lasso Regression'] = {'MAE': lasso_mae, 'R2': lasso_r2, 'Accuracy (within 10%)': lasso_acc, 'Degree': degree}
 
+def random_forest(degree):
+    rf_pipe = Pipeline([
+        ('preprocess', ct),
+        ('model', RandomForestRegressor(random_state=42))
+    ])
+    rf_params = {'model__n_estimators': [50, 100], 'model__max_depth': [None, 10, 20]}
+    rf_grid = GridSearchCV(rf_pipe, rf_params, cv=5,
+                           scoring='neg_mean_absolute_error', n_jobs=-1)
+    rf_grid.fit(X_train, y_train)
+    rf_best = rf_grid.best_estimator_
+    rf_pred = rf_best.predict(X_test)
+    rf_mae = mean_absolute_error(y_test, rf_pred)
+    rf_r2 = r2_score(y_test, rf_pred)
+    rf_acc = evaluation(y_test, rf_pred)
+    results['Random Forest'] = {'MAE': rf_mae, 'R2': rf_r2, 'Accuracy (within 10%)': rf_acc, 'Degree': degree}
+
+
 
 if __name__ == '__main__':
     for degree in [1, 2, 3]:
         ridge_regression(degree)
         lasso_regression(degree)
+        random_forest(degree)
     results_sorted = dict(sorted(results.items(), key=lambda x: x[1]['MAE']))
     pprint(results_sorted)
