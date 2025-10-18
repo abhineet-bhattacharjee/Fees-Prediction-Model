@@ -24,8 +24,9 @@ def school_vs_cost():
     plt.title('School vs Cost Graph')
     plt.xlabel('School')
     plt.ylabel('Tuition Fees')
-    plt.xticks(rotation=30)
+    plt.xticks(rotation=20)
     plt.show()
+
 
 if __name__ == '__main__':
     cost_vs_frequency()
