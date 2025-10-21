@@ -29,3 +29,11 @@ def mape(y_true, y_pred, eps=1e-8):
 def acc_within_pct(y_true, y_pred, pct=0.10):
     return float((np.abs(np.asarray(y_true)-np.asarray(y_pred)) <= pct*np.clip(np.abs(np.asarray(y_true)), 1e-8, None)).mean())
 
+def eval_all(y_true, y_pred):
+    return {
+        'MAE': mean_absolute_error(y_true, y_pred),
+        'RMSE': rmse(y_true, y_pred),
+        'R2': r2_score(y_true, y_pred),
+        'MAPE_%': mape(y_true, y_pred),
+        'Acc_within_10%': acc_within_pct(y_true, y_pred, 0.10)
+    }
