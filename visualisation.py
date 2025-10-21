@@ -19,10 +19,11 @@ def cost_vs_frequency():
     plt.show()
 
 def year_vs_cost():
-    sns.scatterplot(data=df, x='academic.year', y='cost', hue='school')
+    sns.scatterplot(data=df_long, x='academic.year', y='cost', hue='school')
     plt.title('Year vs Cost Graph')
     plt.xlabel('Academic Year')
     plt.ylabel('Tuition Fees')
+    plt.tight_layout()
     plt.show()
 
 def school_vs_cost():
