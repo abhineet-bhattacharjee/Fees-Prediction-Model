@@ -3,11 +3,12 @@ from sklearn.compose import ColumnTransformer
 from sklearn.model_selection import train_test_split
 import pandas as pd
 
-from visualisation import df
+from visualisation import df_long as df
 
 
 X = df[['academic.year', 'school']]
 y = df['cost']
+
 ct = ColumnTransformer(
         transformers=[
             ('school_enc', OneHotEncoder(drop='first', sparse_output=False), ['school'])
