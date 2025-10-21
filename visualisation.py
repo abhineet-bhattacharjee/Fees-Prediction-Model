@@ -27,11 +27,12 @@ def year_vs_cost():
     plt.show()
 
 def school_vs_cost():
-    sns.boxplot(data=df, x='school', y='cost')
+    sns.boxplot(data=df_long, x='school', y='cost')
     plt.title('School vs Cost Graph')
     plt.xlabel('School')
     plt.ylabel('Tuition Fees')
     plt.xticks(rotation=20)
+    plt.tight_layout()
     plt.show()
 
 
