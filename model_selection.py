@@ -76,3 +76,12 @@ def run_lasso(degree, X_train, X_test, y_train, y_test):
     met = eval_all(y_test, pred)
     met.update({'Model': 'Lasso', 'Degree': degree, 'BestParams': params})
     return met
+
+def run_rf(X_train, X_test, y_train, y_test):
+    model = Pipeline([('model', RandomForestRegressor(random_state=RANDOM_STATE))])
+    grid = {'model__n_estimators': [200, 500], 'model__max_depth': [None, 10, 20], 'model__min_samples_leaf': [1, 2]}
+    best, params = fit_grid(model, grid, X_train, y_train)
+    pred = best.predict(X_test)
+    met = eval_all(y_test, pred)
+    met.update({'Model': 'RandomForest', 'Degree': 'N/A', 'BestParams': params})
+    return met
