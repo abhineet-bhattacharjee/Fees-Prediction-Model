@@ -57,3 +57,13 @@ def run_linear(name, degree, X_train, X_test, y_train, y_test):
     met = eval_all(y_test, pred)
     met.update({'Model': name, 'Degree': degree, 'BestParams': {}})
     return met
+
+def run_ridge(degree, X_train, X_test, y_train, y_test):
+    model = build_poly_model(Ridge(), degree)
+    grid = {'model__alpha': [0.01, 0.1, 1, 10, 100]}
+    best, params = fit_grid(model, grid, X_train, y_train)
+    pred = best.predict(X_test)
+    met = eval_all(y_test, pred)
+    met.update({'Model': 'Ridge', 'Degree': degree, 'BestParams': params})
+    return met
+
