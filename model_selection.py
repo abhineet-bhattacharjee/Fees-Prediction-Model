@@ -37,3 +37,10 @@ def eval_all(y_true, y_pred):
         'MAPE_%': mape(y_true, y_pred),
         'Acc_within_10%': acc_within_pct(y_true, y_pred, 0.10)
     }
+
+def build_poly_model(base_estimator, degree):
+    return Pipeline([
+        ('poly', PolynomialFeatures(degree=degree, include_bias=False)),
+        ('scale', StandardScaler()),
+        ('model', base_estimator)
+    ])
