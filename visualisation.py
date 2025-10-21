@@ -11,10 +11,11 @@ df_long = df.melt(id_vars='academic.year',
                   value_name='cost')
 
 def cost_vs_frequency():
-    sns.histplot(df['cost'], bins=20)
+    sns.histplot(df_long['cost'], bins=20)
     plt.title('Cost vs Frequency Graph')
     plt.xlabel('Tuition Fees')
     plt.ylabel('Frequency')
+    plt.tight_layout()
     plt.show()
 
 def year_vs_cost():
