@@ -14,3 +14,8 @@ from sklearn.ensemble import RandomForestRegressor
 warnings.filterwarnings('ignore', category=UserWarning, message='Singular matrix in solving dual problem')
 warnings.filterwarnings('ignore', category=RuntimeWarning, message='Ill-conditioned matrix')
 warnings.filterwarnings('ignore', category=ConvergenceWarning)
+
+DATA_PATH = 'dataset.csv'
+TEST_SIZE = 0.2
+RANDOM_STATE = 42
+DEGREES = [1, 2, 3]
