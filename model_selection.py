@@ -19,3 +19,6 @@ DATA_PATH = 'dataset.csv'
 TEST_SIZE = 0.2
 RANDOM_STATE = 42
 DEGREES = [1, 2, 3]
+
+def rmse(y_true, y_pred):
+    return float(np.sqrt(np.mean((np.asarray(y_true) - np.asarray(y_pred))**2)))
