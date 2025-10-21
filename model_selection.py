@@ -85,3 +85,40 @@ def run_rf(X_train, X_test, y_train, y_test):
     met = eval_all(y_test, pred)
     met.update({'Model': 'RandomForest', 'Degree': 'N/A', 'BestParams': params})
     return met
+
+
+if __name__ == '__main__':
+    wide_df = pd.read_csv(DATA_PATH)
+    school_cols = [c for c in wide_df.columns if c != 'academic.year']
+    all_results = {}
+    summary = []
+    for school in school_cols:
+        X = wide_df[['academic.year']].copy()
+        y = wide_df[school].copy()
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=TEST_SIZE, random_state=RANDOM_STATE, shuffle=True)
+        school_metrics = []
+        for d in DEGREES:
+            school_metrics.append(run_linear('LinearRegression', d, X_train, X_test, y_train, y_test))
+        for d in DEGREES:
+            school_metrics.append(run_ridge(d, X_train, X_test, y_train, y_test))
+        for d in DEGREES:
+            school_metrics.append(run_lasso(d, X_train, X_test, y_train, y_test))
+        school_metrics.append(run_rf(X_train, X_test, y_train, y_test))
+        all_results[school] = school_metrics
+        best = min(school_metrics, key=lambda m: m['MAE'])
+        summary.append({
+            'School': school,
+            'BestModel': best['Model'],
+            'Degree': best['Degree'],
+            'MAE': best['MAE'],
+            'RMSE': best['RMSE'],
+            'R2': best['R2'],
+            'MAPE_%': best['MAPE_%'],
+            'Acc_within_10%': best['Acc_within_10%'],
+            'BestParams': best['BestParams']
+        })
+    print('\n=== Best model per school (by MAE) ===')
+    for row in summary:
+        print(f"{row['School']}: {row['BestModel']} (degree {row['Degree']}) | MAE={row['MAE']:.2f}, RMSE={row['RMSE']:.2f}, R2={row['R2']:.4f}, MAPE={row['MAPE_%']:.2f}%, Acc<=10%={row['Acc_within_10%']:.3f}, Params={row['BestParams']}")
+    print('\n=== Full results ===')
+    pprint(all_results)
