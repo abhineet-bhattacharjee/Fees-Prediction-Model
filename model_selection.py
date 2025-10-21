@@ -67,3 +67,12 @@ def run_ridge(degree, X_train, X_test, y_train, y_test):
     met.update({'Model': 'Ridge', 'Degree': degree, 'BestParams': params})
     return met
 
+
+def run_lasso(degree, X_train, X_test, y_train, y_test):
+    model = build_poly_model(Lasso(max_iter=50000), degree)
+    grid = {'model__alpha': [0.0005, 0.001, 0.01, 0.1, 1]}
+    best, params = fit_grid(model, grid, X_train, y_train)
+    pred = best.predict(X_test)
+    met = eval_all(y_test, pred)
+    met.update({'Model': 'Lasso', 'Degree': degree, 'BestParams': params})
+    return met
