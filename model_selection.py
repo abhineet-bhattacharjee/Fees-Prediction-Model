@@ -22,3 +22,6 @@ DEGREES = [1, 2, 3]
 
 def rmse(y_true, y_pred):
     return float(np.sqrt(np.mean((np.asarray(y_true) - np.asarray(y_pred))**2)))
+
+def mape(y_true, y_pred, eps=1e-8):
+    return float((np.abs(np.asarray(y_true)-np.asarray(y_pred)) / np.clip(np.abs(np.asarray(y_true)), eps, None)).mean() * 100.0)
