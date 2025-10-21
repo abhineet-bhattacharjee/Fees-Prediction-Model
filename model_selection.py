@@ -44,3 +44,9 @@ def build_poly_model(base_estimator, degree):
         ('scale', StandardScaler()),
         ('model', base_estimator)
     ])
+
+def fit_grid(model, param_grid, X_train, y_train, scoring='neg_mean_absolute_error', cv=5):
+    gs = GridSearchCV(model, param_grid=param_grid, scoring=scoring, cv=cv, n_jobs=-1)
+    gs.fit(X_train, y_train)
+    return gs.best_estimator_, gs.best_params_
+
