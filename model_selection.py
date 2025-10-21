@@ -25,3 +25,7 @@ def rmse(y_true, y_pred):
 
 def mape(y_true, y_pred, eps=1e-8):
     return float((np.abs(np.asarray(y_true)-np.asarray(y_pred)) / np.clip(np.abs(np.asarray(y_true)), eps, None)).mean() * 100.0)
+
+def acc_within_pct(y_true, y_pred, pct=0.10):
+    return float((np.abs(np.asarray(y_true)-np.asarray(y_pred)) <= pct*np.clip(np.abs(np.asarray(y_true)), 1e-8, None)).mean())
+
