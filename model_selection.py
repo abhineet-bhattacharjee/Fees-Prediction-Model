@@ -50,3 +50,10 @@ def fit_grid(model, param_grid, X_train, y_train, scoring='neg_mean_absolute_err
     gs.fit(X_train, y_train)
     return gs.best_estimator_, gs.best_params_
 
+def run_linear(name, degree, X_train, X_test, y_train, y_test):
+    model = build_poly_model(LinearRegression(), degree)
+    model.fit(X_train, y_train)
+    pred = model.predict(X_test)
+    met = eval_all(y_test, pred)
+    met.update({'Model': name, 'Degree': degree, 'BestParams': {}})
+    return met
