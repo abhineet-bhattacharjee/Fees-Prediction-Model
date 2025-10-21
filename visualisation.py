@@ -3,7 +3,7 @@ import seaborn as sns
 import pandas as pd
 
 
-df = pd.read_csv('Harvard Fees Dataset.csv')
+df = pd.read_csv('dataset.csv')
 tuition_cols = [c for c in df.columns if c != 'academic.year']
 df_long = df.melt(id_vars='academic.year',
                   value_vars=tuition_cols,
