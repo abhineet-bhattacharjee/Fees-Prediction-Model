@@ -111,7 +111,7 @@ def predict(school, year, inflation=None, endowment=None):
 
     if inflation is None:
         inflation = df['inflation_rate'].iloc[-1]
-        print(f"  Using default inflation: {inflation:.2f}%")
+        print(f"Using default inflation: {inflation:.2f}%")
 
     if endowment is None:
         recent_years = df['academic.year'].iloc[-5:].values
@@ -146,7 +146,7 @@ def main():
         if args.school is None or args.year is None:
             raise ValueError('Provide --school "School Name" and --year YYYY')
         y_pred = predict(args.school, args.year, args.inflation, args.endowment)
-        print(f'\n✓ Predicted tuition for {args.school} in {args.year}: ${y_pred:,.2f}')
+        print(f'\nPredicted tuition for {args.school} in {args.year}: ${y_pred:,.2f}')
     else:
         print('Usage:')
         print('  --train                          Train and save models')

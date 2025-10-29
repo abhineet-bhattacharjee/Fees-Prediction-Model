@@ -128,4 +128,5 @@ if __name__ == '__main__':
 
     for row in summary:
         print(f"{row['School']}: {row['BestModel']} (degree {row['Degree']}) | MAE={row['MAE']:.2f}, RMSE={row['RMSE']:.2f}, R2={row['R2']:.4f}, MAPE={row['MAPE_%']:.2f}%, Acc<=10%={row['Acc_within_10%']:.3f}, Params={row['BestParams']}")
+
     pprint(all_results)
