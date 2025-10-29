@@ -79,3 +79,13 @@ def train_and_save_models():
     print(f'Models saved to: {MODELS_DIR}')
     print(f'Report saved to: {REPORT_PATH}')
 
+def predict(school, year):
+    model_path = os.path.join(MODELS_DIR, f'final_model_{school.replace(" ", "_")}.joblib')
+
+    if not os.path.exists(model_path):
+        raise FileNotFoundError(f'Model file not found for school: {school}')
+
+    model = joblib.load(model_path)
+    X_new = pd.DataFrame({'academic.year': [year]})
+    y_pred = model.predict(X_new)
+    return float(y_pred[0])
