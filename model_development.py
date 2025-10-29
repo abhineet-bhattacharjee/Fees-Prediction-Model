@@ -36,3 +36,6 @@ BEST_MODELS = {
 
 def safe_name(s: str) -> str:
     return re.sub(r'[^A-Za-z0-9_.-]+', '_', s)
+
+def ensure_dir(path: str):
+    Path(path).mkdir(parents=True, exist_ok=True)
