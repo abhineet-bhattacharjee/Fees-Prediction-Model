@@ -45,3 +45,15 @@ def train_and_save_models():
     school_cols = [c for c in df.columns if c != 'academic.year']
     ensure_dir(MODELS_DIR)
     report = {'cv_results': {}, 'train_fit': {}}
+    for school in school_cols:
+        spec = BEST_MODELS[school]
+        degree = spec['degree']
+        params = spec['params']
+        X = df[['academic.year']]
+        y = df[school]
+        pipe = build_poly_model(LinearRegression(**params), degree)
+        kf = KFold(n_splits=CV_FOLDS, shuffle=True, random_state=RANDOM_STATE)
+        cv_mae = -cross_val_score(pipe, X, y, scoring='neg_mean_absolute_error', cv=kf, n_jobs=-1)
+        cv_r2 = cross_val_score(pipe, X, y, scoring='r2', cv=kf, n_jobs=-1)
+        pipe.fit(X, y)
+        y_pred = pipe.predict(X)
