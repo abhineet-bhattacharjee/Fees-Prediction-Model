@@ -45,6 +45,7 @@ def train_and_save_models():
     school_cols = [c for c in df.columns if c != 'academic.year']
     ensure_dir(MODELS_DIR)
     report = {'cv_results': {}, 'train_fit': {}}
+
     for school in school_cols:
         spec = BEST_MODELS[school]
         degree = spec['degree']
@@ -57,5 +58,24 @@ def train_and_save_models():
         cv_r2 = cross_val_score(pipe, X, y, scoring='r2', cv=kf, n_jobs=-1)
         pipe.fit(X, y)
         y_pred = pipe.predict(X)
+
         train_metrics = eval_all(y, y_pred)
         train_metrics['Degree'] = degree
+        report['cv_results'][school] = {
+            'CV_MAE_mean': float(cv_mae.mean()),
+            'CV_MAE_std': float(cv_mae.std()),
+            'CV_R2_mean': float(cv_r2.mean()),
+            'CV_R2_std': float(cv_r2.std()),
+            'Degree': degree
+        }
+
+        report['train_fit'][school] = train_metrics
+        model_path = os.path.join(MODELS_DIR, f'final_model_{school.replace(" ", "_")}.joblib')
+        joblib.dump(pipe, model_path)
+
+    with open(REPORT_PATH, 'w', encoding='utf-8') as f:
+        json.dump(report, f, indent=2)
+
+    print(f'Models saved to: {MODELS_DIR}')
+    print(f'Report saved to: {REPORT_PATH}')
+
