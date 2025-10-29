@@ -33,3 +33,6 @@ BEST_MODELS = {
     'Medical/Dental': {'model': 'LinearRegression', 'degree': 3, 'params': {}},
     'Public Health (1-Year MPH)': {'model': 'LinearRegression', 'degree': 3, 'params': {}},
 }
+
+def safe_name(s: str) -> str:
+    return re.sub(r'[^A-Za-z0-9_.-]+', '_', s)
