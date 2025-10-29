@@ -1,0 +1,159 @@
+{
+  "cv_results": {
+    "Business (MBA)": {
+      "Model": "LinearRegression",
+      "CV_MAE_mean": 324.4603603836633,
+      "CV_MAE_std": 146.257917943652,
+      "CV_R2_mean": 0.9989701792335255,
+      "CV_R2_std": 0.0007301932804075864,
+      "Degree": 2
+    },
+    "Design": {
+      "Model": "LinearRegression",
+      "CV_MAE_mean": 247.77839654983683,
+      "CV_MAE_std": 72.78259249702667,
+      "CV_R2_mean": 0.999022068509263,
+      "CV_R2_std": 0.00038976658036621987,
+      "Degree": 2
+    },
+    "Divinity": {
+      "Model": "Lasso",
+      "CV_MAE_mean": 139.95782143211818,
+      "CV_MAE_std": 94.18013881741749,
+      "CV_R2_mean": 0.9986053691314787,
+      "CV_R2_std": 0.001708506879392948,
+      "Degree": 3
+    },
+    "Education": {
+      "Model": "LinearRegression",
+      "CV_MAE_mean": 218.0921882594411,
+      "CV_MAE_std": 25.959862354818274,
+      "CV_R2_mean": 0.9991753974374898,
+      "CV_R2_std": 0.00019676747791691468,
+      "Degree": 2
+    },
+    "GSAS": {
+      "Model": "LinearRegression",
+      "CV_MAE_mean": 280.76106759022565,
+      "CV_MAE_std": 85.48991254974561,
+      "CV_R2_mean": 0.9980824818256677,
+      "CV_R2_std": 0.0010400459546791962,
+      "Degree": 2
+    },
+    "Government": {
+      "Model": "Lasso",
+      "CV_MAE_mean": 534.6082775369962,
+      "CV_MAE_std": 366.7448706005908,
+      "CV_R2_mean": 0.9928636155637165,
+      "CV_R2_std": 0.008740411746911791,
+      "Degree": 3
+    },
+    "Law": {
+      "Model": "LinearRegression",
+      "CV_MAE_mean": 371.0655864863643,
+      "CV_MAE_std": 138.96656685788247,
+      "CV_R2_mean": 0.9984235374733125,
+      "CV_R2_std": 0.0009308085812250604,
+      "Degree": 2
+    },
+    "Medical/Dental": {
+      "Model": "Lasso",
+      "CV_MAE_mean": 466.80041547626763,
+      "CV_MAE_std": 192.8403866180521,
+      "CV_R2_mean": 0.9969561290605183,
+      "CV_R2_std": 0.0017758876543480478,
+      "Degree": 3
+    },
+    "Public Health (1-Year MPH)": {
+      "Model": "Ridge",
+      "CV_MAE_mean": 1386.7235590886512,
+      "CV_MAE_std": 756.0135947883024,
+      "CV_R2_mean": 0.9602515834746412,
+      "CV_R2_std": 0.03283780132283415,
+      "Degree": 3
+    }
+  },
+  "train_fit": {
+    "Business (MBA)": {
+      "MAE": 178.9965458938458,
+      "RMSE": 237.5263564066314,
+      "R2": 0.9997749390867702,
+      "MAPE_%": 0.7104664415819926,
+      "Acc_within_10%": 1.0,
+      "Degree": 2,
+      "Model": "LinearRegression"
+    },
+    "Design": {
+      "MAE": 154.2918314286036,
+      "RMSE": 190.40882261530876,
+      "R2": 0.9997098151714291,
+      "MAPE_%": 0.6466037359211686,
+      "Acc_within_10%": 1.0,
+      "Degree": 2,
+      "Model": "LinearRegression"
+    },
+    "Divinity": {
+      "MAE": 58.39283739078189,
+      "RMSE": 75.94964397469428,
+      "R2": 0.9998691949961737,
+      "MAPE_%": 0.43280930847100896,
+      "Acc_within_10%": 1.0,
+      "Degree": 3,
+      "Model": "Lasso"
+    },
+    "Education": {
+      "MAE": 136.94884981537905,
+      "RMSE": 164.97092878376498,
+      "R2": 0.999767121312295,
+      "MAPE_%": 0.6178000757735561,
+      "Acc_within_10%": 1.0,
+      "Degree": 2,
+      "Model": "LinearRegression"
+    },
+    "GSAS": {
+      "MAE": 187.31212657533973,
+      "RMSE": 255.97144898497748,
+      "R2": 0.9993483671011874,
+      "MAPE_%": 0.8501628595138151,
+      "Acc_within_10%": 1.0,
+      "Degree": 2,
+      "Model": "LinearRegression"
+    },
+    "Government": {
+      "MAE": 185.8495677724656,
+      "RMSE": 281.11943620075925,
+      "R2": 0.9994310470352873,
+      "MAPE_%": 0.8801735653951379,
+      "Acc_within_10%": 1.0,
+      "Degree": 3,
+      "Model": "Lasso"
+    },
+    "Law": {
+      "MAE": 207.94776448523314,
+      "RMSE": 298.35038158352455,
+      "R2": 0.9996099608956249,
+      "MAPE_%": 0.8992266117527393,
+      "Acc_within_10%": 1.0,
+      "Degree": 2,
+      "Model": "LinearRegression"
+    },
+    "Medical/Dental": {
+      "MAE": 248.6900896735459,
+      "RMSE": 337.1200083696032,
+      "R2": 0.9993699285388533,
+      "MAPE_%": 0.9697461410174709,
+      "Acc_within_10%": 1.0,
+      "Degree": 3,
+      "Model": "Lasso"
+    },
+    "Public Health (1-Year MPH)": {
+      "MAE": 964.9119991005178,
+      "RMSE": 1751.8889740880288,
+      "R2": 0.9826927234289022,
+      "MAPE_%": 2.986545740813426,
+      "Acc_within_10%": 0.9393939393939394,
+      "Degree": 3,
+      "Model": "Ridge"
+    }
+  }
+}
