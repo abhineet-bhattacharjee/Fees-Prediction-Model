@@ -43,6 +43,52 @@ inflation_data = {
     ]
 }
 inflation_df = pd.DataFrame(inflation_data)
+merged_df = pivot_df.merge(inflation_df, on='academic.year', how='left')
 
-processed_df = pivot_df.merge(inflation_df, on='academic.year', how='left')
+
+endowment_data = {
+    'year': list(range(1985, 2018)),
+    'endowment_billions': [
+        3.53,   # 1985
+        4.63,   # 1986
+        5.55,   # 1987
+        5.86,   # 1988
+        6.61,   # 1989
+        7.11,   # 1990
+        7.81,   # 1991
+        8.14,   # 1992
+        8.88,   # 1993
+        9.73,   # 1994
+        10.49,  # 1995
+        11.04,  # 1996
+        11.89,  # 1997
+        13.01,  # 1998
+        14.44,  # 1999
+        19.20,  # 2000
+        18.27,  # 2001
+        17.50,  # 2002
+        19.30,  # 2003
+        22.60,  # 2004
+        25.90,  # 2005
+        29.20,  # 2006
+        34.90,  # 2007
+        36.90,  # 2008 - peak before financial crisis
+        26.00,  # 2009 - 30% crash during financial crisis
+        27.40,  # 2010
+        32.00,  # 2011
+        30.70,  # 2012
+        32.70,  # 2013
+        36.40,  # 2014
+        37.60,  # 2015
+        35.70,  # 2016
+        37.10   # 2017
+    ]
+}
+endowment_df = pd.DataFrame(endowment_data)
+
+processed_df = merged_df.merge(
+    endowment_df.rename(columns={'year': 'academic.year'}),
+    on='academic.year',
+    how='left'
+)
 processed_df.to_csv('dataset.csv', index=False)
