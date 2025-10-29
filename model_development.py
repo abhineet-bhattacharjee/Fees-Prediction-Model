@@ -13,7 +13,7 @@ from sklearn.model_selection import cross_val_score, KFold
 from sklearn.metrics import mean_absolute_error, r2_score
 import joblib
 
-from model_selection import rmse, mape, acc_within_pct, build_poly_model
+from model_selection import rmse, mape, acc_within_pct, build_poly_model, eval_all
 from visualisation import df
 
 
@@ -57,3 +57,5 @@ def train_and_save_models():
         cv_r2 = cross_val_score(pipe, X, y, scoring='r2', cv=kf, n_jobs=-1)
         pipe.fit(X, y)
         y_pred = pipe.predict(X)
+        train_metrics = eval_all(y, y_pred)
+        train_metrics['Degree'] = degree
