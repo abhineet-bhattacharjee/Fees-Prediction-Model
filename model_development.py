@@ -22,3 +22,14 @@ REPORT_PATH = os.path.join(BASE_DIR, 'model_report.json')
 RANDOM_STATE = 42
 CV_FOLDS = 5
 
+BEST_MODELS = {
+    'Business (MBA)': {'model': 'LinearRegression', 'degree': 3, 'params': {}},
+    'Design': {'model': 'LinearRegression', 'degree': 3, 'params': {}},
+    'Divinity': {'model': 'LinearRegression', 'degree': 3, 'params': {}},
+    'Education': {'model': 'LinearRegression', 'degree': 2, 'params': {}},
+    'GSAS': {'model': 'LinearRegression', 'degree': 3, 'params': {}},
+    'Government': {'model': 'LinearRegression', 'degree': 3, 'params': {}},
+    'Law': {'model': 'LinearRegression', 'degree': 3, 'params': {}},
+    'Medical/Dental': {'model': 'LinearRegression', 'degree': 3, 'params': {}},
+    'Public Health (1-Year MPH)': {'model': 'LinearRegression', 'degree': 3, 'params': {}},
+}
