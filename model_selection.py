@@ -18,7 +18,6 @@ warnings.filterwarnings('ignore', category=UserWarning, message='Singular matrix
 warnings.filterwarnings('ignore', category=RuntimeWarning, message='Ill-conditioned matrix')
 warnings.filterwarnings('ignore', category=ConvergenceWarning)
 
-DATA_PATH = 'dataset.csv'
 TEST_SIZE = 0.2
 RANDOM_STATE = 42
 DEGREES = [1, 2, 3]
@@ -91,12 +90,11 @@ def run_rf(X_train, X_test, y_train, y_test):
 
 
 if __name__ == '__main__':
-    wide_df = pd.read_csv(DATA_PATH)
     school_cols = [c for c in wide_df.columns if c != 'academic.year']
     all_results = {}
     summary = []
     for school in school_cols:
-        X = wide_df[['academic.year']].copy()
+        X = wide_df[['academic.year', 'inflation_rate', 'endowment_billions']].copy()
         y = wide_df[school].copy()
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=TEST_SIZE, random_state=RANDOM_STATE, shuffle=True)
         school_metrics = []
@@ -120,8 +118,6 @@ if __name__ == '__main__':
             'Acc_within_10%': best['Acc_within_10%'],
             'BestParams': best['BestParams']
         })
-    print('\n=== Best model per school (by MAE) ===')
     for row in summary:
         print(f"{row['School']}: {row['BestModel']} (degree {row['Degree']}) | MAE={row['MAE']:.2f}, RMSE={row['RMSE']:.2f}, R2={row['R2']:.4f}, MAPE={row['MAPE_%']:.2f}%, Acc<=10%={row['Acc_within_10%']:.3f}, Params={row['BestParams']}")
-    print('\n=== Full results ===')
     pprint(all_results)
