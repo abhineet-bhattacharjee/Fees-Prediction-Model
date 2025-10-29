@@ -89,3 +89,25 @@ def predict(school, year):
     X_new = pd.DataFrame({'academic.year': [year]})
     y_pred = model.predict(X_new)
     return float(y_pred[0])
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--train', action='store_true')
+    parser.add_argument('--predict', action='store_true')
+    parser.add_argument('--school', type=str, default=None)
+    parser.add_argument('--year', type=int, default=None)
+    args = parser.parse_args()
+
+    if args.train:
+        train_and_save_models()
+    elif args.predict:
+        if args.school is None or args.year is None:
+            raise ValueError('Provide --school "School Name" and --year YYYY')
+        y_pred = predict(args.school, args.year)
+        print(f'Predicted tuition for {args.school} in {args.year}: {y_pred:.2f}')
+    else:
+        print('Use --train to train/save models or --predict --school "Name" --year YYYY to predict.')
+
+
+if __name__ == '__main__':
+    main()
