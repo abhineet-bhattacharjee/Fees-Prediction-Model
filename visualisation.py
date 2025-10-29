@@ -4,11 +4,12 @@ import pandas as pd
 
 
 df = pd.read_csv('dataset.csv')
-tuition_cols = [c for c in df.columns if c not in [['academic.year', 'inflation_rate', 'endowment_billions']]]
+tuition_cols = [c for c in df.columns if c not in ['academic.year', 'inflation_rate', 'endowment_billions']]
 df_long = df.melt(id_vars='academic.year',
                   value_vars=tuition_cols,
                   var_name='school',
                   value_name='cost')
+
 
 def cost_vs_frequency():
     sns.histplot(df_long['cost'], bins=20)
