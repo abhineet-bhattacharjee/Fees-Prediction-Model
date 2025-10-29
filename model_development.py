@@ -43,27 +43,45 @@ def safe_name(s: str) -> str:
 def ensure_dir(path: str):
     Path(path).mkdir(parents=True, exist_ok=True)
 
+
 def train_and_save_models():
     school_cols = [c for c in df.columns if c not in ['academic.year', 'inflation_rate', 'endowment_billions']]
-    ensure_dir(MOELS_DIR)
+    ensure_dir(MODELS_DIR)
     report = {'cv_results': {}, 'train_fit': {}}
 
     for school in school_cols:
         spec = BEST_MODELS[school]
+        model_type = spec['model']
         degree = spec['degree']
         params = spec['params']
+
+        if model_type == 'LinearRegression':
+            base_model = LinearRegression(**params)
+        elif model_type == 'Lasso':
+            base_model = Lasso(max_iter=50000, **params)
+        elif model_type == 'Ridge':
+            base_model = Ridge(**params)
+        else:
+            raise ValueError(f"Unknown model type: {model_type}")
+
         X = df[['academic.year', 'inflation_rate', 'endowment_billions']]
         y = df[school]
-        pipe = build_poly_model(LinearRegression(**params), degree)
+
+        pipe = build_poly_model(base_model, degree)
+
         kf = KFold(n_splits=CV_FOLDS, shuffle=True, random_state=RANDOM_STATE)
         cv_mae = -cross_val_score(pipe, X, y, scoring='neg_mean_absolute_error', cv=kf, n_jobs=-1)
         cv_r2 = cross_val_score(pipe, X, y, scoring='r2', cv=kf, n_jobs=-1)
+
         pipe.fit(X, y)
         y_pred = pipe.predict(X)
 
         train_metrics = eval_all(y, y_pred)
         train_metrics['Degree'] = degree
+        train_metrics['Model'] = model_type
+
         report['cv_results'][school] = {
+            'Model': model_type,
             'CV_MAE_mean': float(cv_mae.mean()),
             'CV_MAE_std': float(cv_mae.std()),
             'CV_R2_mean': float(cv_r2.mean()),
@@ -72,24 +90,27 @@ def train_and_save_models():
         }
 
         report['train_fit'][school] = train_metrics
+
         model_path = os.path.join(MODELS_DIR, f'final_model_{safe_name(school.replace(" ", "_"))}.joblib')
         joblib.dump(pipe, model_path)
+
+        print(f"Trained {school}: {model_type} (degree {degree}) | MAE={train_metrics['MAE']:.2f}, R2={train_metrics['R2']:.4f}")
 
     with open(REPORT_PATH, 'w', encoding='utf-8') as f:
         json.dump(report, f, indent=2)
 
-    print(f'Models saved to: {MODELS_DIR}')
+    print(f'\nAll models saved to: {MODELS_DIR}')
     print(f'Report saved to: {REPORT_PATH}')
 
-def predict(school, year):
+
+def predict(school, year, inflation=None, endowment=None):
     model_path = os.path.join(MODELS_DIR, f'final_model_{school.replace(" ", "_")}.joblib')
 
     if not os.path.exists(model_path):
         raise FileNotFoundError(f'Model file not found for school: {school}')
 
     if inflation is None:
-        # Use last known inflation rate (2017) or historical average
-        inflation = df['inflation_rate'].iloc[-1]  # 2.13% from 2017
+        inflation = df['inflation_rate'].iloc[-1]
         print(f"  Using default inflation: {inflation:.2f}%")
 
     if endowment is None:
@@ -111,10 +132,12 @@ def predict(school, year):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--train', action='store_true')
-    parser.add_argument('--predict', action='store_true')
-    parser.add_argument('--school', type=str, default=None)
-    parser.add_argument('--year', type=int, default=None)
+    parser.add_argument('--train', action='store_true', help='Train and save all models')
+    parser.add_argument('--predict', action='store_true', help='Predict tuition for a school')
+    parser.add_argument('--school', type=str, default=None, help='School name')
+    parser.add_argument('--year', type=int, default=None, help='Academic year')
+    parser.add_argument('--inflation', type=float, default=None, help='Inflation rate (%). Optional.')
+    parser.add_argument('--endowment', type=float, default=None, help='Endowment in billions. Optional.')
     args = parser.parse_args()
 
     if args.train:
@@ -122,10 +145,14 @@ def main():
     elif args.predict:
         if args.school is None or args.year is None:
             raise ValueError('Provide --school "School Name" and --year YYYY')
-        y_pred = predict(args.school, args.year)
-        print(f'Predicted tuition for {args.school} in {args.year}: {y_pred:.2f}')
+        y_pred = predict(args.school, args.year, args.inflation, args.endowment)
+        print(f'\n✓ Predicted tuition for {args.school} in {args.year}: ${y_pred:,.2f}')
     else:
-        print('Use --train to train/save models or --predict --school "Name" --year YYYY to predict.')
+        print('Usage:')
+        print('  --train                          Train and save models')
+        print('  --predict --school "Name" --year YYYY [--inflation X.X] [--endowment Y.Y]')
+
+
 
 
 if __name__ == '__main__':
