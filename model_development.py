@@ -13,10 +13,11 @@ from sklearn.model_selection import cross_val_score, KFold
 from sklearn.metrics import mean_absolute_error, r2_score
 import joblib
 
-from visualisation import rmse, mape, acc_within_pct, build_poly_model
+from model_selection import rmse, mape, acc_within_pct, build_poly_model
+from visualisation import df
+
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-DATA_PATH = os.path.join(BASE_DIR, 'dataset.csv')
 MODELS_DIR = os.path.join(BASE_DIR, 'models')
 REPORT_PATH = os.path.join(BASE_DIR, 'model_report.json')
 RANDOM_STATE = 42
@@ -39,3 +40,8 @@ def safe_name(s: str) -> str:
 
 def ensure_dir(path: str):
     Path(path).mkdir(parents=True, exist_ok=True)
+
+def train_and_save_models():
+    school_cols = [c for c in df.columns if c != 'academic.year']
+    ensure_dir(MODELS_DIR)
+    report = {'cv_results': {}, 'train_fit': {}}
