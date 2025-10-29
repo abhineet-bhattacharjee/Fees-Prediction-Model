@@ -1,4 +1,4 @@
-# 🎓 Harvard University Graduate Tuition Prediction
+# 🎓 Harvard University Tuition Fees Prediction
 
 Machine learning models that predict Harvard graduate school tuition fees with **99.1% average accuracy** using historical data (1985-2017) and economic indicators.
 
