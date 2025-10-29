@@ -13,7 +13,7 @@ from sklearn.model_selection import cross_val_score, KFold
 from sklearn.metrics import mean_absolute_error, r2_score
 import joblib
 
-from visualisation import rmse, mape, acc_within_pct
+from visualisation import rmse, mape, acc_within_pct, build_poly_model
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_PATH = os.path.join(BASE_DIR, 'dataset.csv')
