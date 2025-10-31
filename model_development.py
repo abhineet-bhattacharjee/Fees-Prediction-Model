@@ -110,8 +110,11 @@ def predict(school, year, inflation=None, endowment=None):
         raise FileNotFoundError(f'Model file not found for school: {school}')
 
     if inflation is None:
-        inflation = df['inflation_rate'].iloc[-1]
-        print(f"Using default inflation: {inflation:.2f}%")
+        if 1985 <= int(year) <= 2017:
+            inflation = df.loc[df['academic.year'] == year, 'inflation_rate'].values[0]
+        else:
+            inflation = df['inflation_rate'].iloc[-1]
+            print(f"Using default inflation: {inflation:.2f}%")
 
     if endowment is None:
         recent_years = df['academic.year'].iloc[-5:].values
