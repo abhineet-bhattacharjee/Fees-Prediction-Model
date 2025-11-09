@@ -1,20 +1,26 @@
 import subprocess
 
-schools = ['Business__MBA_', 'Law', 'Medical_Dental', 'Divinity']
+schools = [
+    'Business__MBA_',
+    'Design',
+    'Divinity',
+    'Education',
+    'GSAS',
+    'Government',
+    'Law',
+    'Medical_Dental',
+    'Public_Health__1-Year_MPH_'
+]
 scenarios = [
     {'inflation': None, 'endowment': None, 'name': 'baseline'},
-    {'inflation': 3.5, 'endowment': 50.0, 'name': 'moderate'},
-    {'inflation': 5.5, 'endowment': 60.0, 'name': 'high_growth'},
+    # {'inflation': 3.5, 'endowment': 50.0, 'name': 'moderate'},
+    # {'inflation': 5.5, 'endowment': 60.0, 'name': 'high_growth'},
 ]
 
-years = range(2017, 2031)  # 2017-2030
+years = range(1985, 2018)
 
-for year in years:
-    print(f"\n{'#' * 70}")
-    print(f"# YEAR {year}")
-    print('#' * 70)
-
-    for school in schools:
+for school in schools:
+    for year in years:
         for scenario in scenarios:
             cmd = [
                 'python', 'model_development.py',
@@ -28,10 +34,7 @@ for year in years:
             if scenario['endowment']:
                 cmd.extend(['--endowment', str(scenario['endowment'])])
 
-            print(f"\n{'=' * 60}")
-            print(f"{school} - {scenario['name']}")
-            print('=' * 60)
-
+            print(f"{school} - {scenario['name']} - {year}")
             subprocess.run(cmd, capture_output=False)
 
 print("\n" + "=" * 70)

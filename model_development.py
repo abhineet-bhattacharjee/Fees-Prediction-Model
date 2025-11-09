@@ -110,23 +110,15 @@ def predict(school, year, inflation=None, endowment=None):
         raise FileNotFoundError(f'Model file not found for school: {school}')
 
     if inflation is None:
-        if year in df['academic.year'].values:
-            inflation = float(df[df['academic.year'] == year]['inflation_rate'].iloc[0])
-            print(f"Using historical inflation for {year}: {inflation:.2f}%")
-        else:
-            inflation = float(df[df['academic.year'] == 2017]['inflation_rate'].iloc[0])
-            print(f"Year {year} not in dataset. Using 2017 default inflation: {inflation:.2f}%")
+        inflation = df['inflation_rate'].iloc[-1]
+        print(f"Using default inflation: {inflation:.2f}%")
 
     if endowment is None:
-        if year in df['academic.year'].values:
-            endowment = float(df[df['academic.year'] == year]['endowment_billions'].iloc[0])
-            print(f"Using historical endowment for {year}: ${endowment:.2f}B")
-        else:
-            recent_years = df['academic.year'].iloc[-5:].values
-            recent_endow = df['endowment_billions'].iloc[-5:].values
-            slope = (recent_endow[-1] - recent_endow[0]) / (recent_years[-1] - recent_years[0])
-            endowment = recent_endow[-1] + slope * (year - recent_years[-1])
-            print(f"Estimated endowment: ${endowment:.2f}B")
+        recent_years = df['academic.year'].iloc[-5:].values
+        recent_endow = df['endowment_billions'].iloc[-5:].values
+        slope = (recent_endow[-1] - recent_endow[0]) / (recent_years[-1] - recent_years[0])
+        endowment = recent_endow[-1] + slope * (year - recent_years[-1])
+        print(f"  Estimated endowment: ${endowment:.2f}B")
 
     model = joblib.load(model_path)
     X_new = pd.DataFrame({
